@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" style="color-scheme: dark;">
+<head>
+	<!--フロントエンド有識者助けて(/_;)-->
+	<link rel="stylesheet" type="text/css" href="/static/gui/log.css">
+	<script src="/static/gui/message_form.js"></script>
+	<title>ChatGPT API</title>
+	<meta charset="UTF-8">
+</head>
+
+<body class="boddy">
+	<d class="test">{{message}}</d>
+</body>
+
+<footer>
+	<form action="{% url 'form' %}" class="message_input_footer" method="post">
+		{% csrf_token %}
+		<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
+		<input type="submit" id="submit_button" value="▶">
+	</form>
+</footer>
+
+</html>

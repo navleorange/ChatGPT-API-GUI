@@ -1,0 +1,37 @@
+.body{
+	overflow: scroll;
+}
+
+p{
+	font-size: x-large;
+}
+
+.test{
+	font-size: xx-large;
+}
+
+.message_input_footer{
+	position: sticky;
+	bottom: 3%;
+	width: 70%;
+	height: 150px;
+	background-color: transparent;
+	margin: auto;	/*中央揃え*/
+}
+
+#submit_button{
+	position: relative;
+	top: 10%;
+	width: 10%;
+	height: 30%;
+}
+
+#message_input{
+	position: relative;
+	top: 25%;
+	width: 88%;
+	min-height: 30%;
+	max-height: 80%;
+	border-radius: 8px;	/*角の丸み*/
+	font-size: x-large;
+}
