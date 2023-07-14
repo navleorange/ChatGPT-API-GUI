@@ -2,36 +2,53 @@
 	overflow: scroll;
 }
 
-p{
+.test{
+	background-color: #343541;
 	font-size: x-large;
+	margin: 0;
 }
 
-.test{
-	font-size: xx-large;
+.assistant{
+	background-color:#444654;
+	font-size: x-large;
+	margin: 0;
+}
+
+.content{
+	margin: 0 auto;
+	width: 30%;
+}
+
+
+
+/*footer*/
+
+#footer{
+	margin-top: 40%;
+	position: sticky;
+	bottom: 0;
+	/* background-color: blue; */
 }
 
 .message_input_footer{
-	position: sticky;
-	bottom: 3%;
+	display: flex;
 	width: 70%;
 	height: 150px;
-	background-color: transparent;
 	margin: auto;	/*中央揃え*/
 }
 
-#submit_button{
-	position: relative;
-	top: 10%;
-	width: 10%;
-	height: 30%;
-}
-
 #message_input{
-	position: relative;
-	top: 25%;
 	width: 88%;
+	min-width: 30%;
+	max-width: 90%;
+	height: 30%;
 	min-height: 30%;
 	max-height: 80%;
 	border-radius: 8px;	/*角の丸み*/
 	font-size: x-large;
+}
+
+#submit_button{
+	width: 7%;
+	height: 30%;
 }

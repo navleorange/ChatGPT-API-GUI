@@ -5,14 +5,28 @@
 	<link rel="stylesheet" type="text/css" href="/static/gui/log.css">
 	<script src="/static/gui/message_form.js"></script>
 	<title>ChatGPT API</title>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
 	<meta charset="UTF-8">
 </head>
 
 <body class="boddy">
-	<d class="test">{{message}}</d>
+	{% for message in message_list %}
+		{% if message.role == "user" %}
+			<div class="test">
+				<div class="content">
+					{{message.content}}
+				</div>
+			</div>
+		{% elif message.role == "assistant" %}
+			<div class="assistant">
+				<div class="content">{{message.content}}</div>
+			</div>
+		{% endif %}
+	{% endfor %}
 </body>
 
-<footer>
+<footer id="footer">
 	<form action="{% url 'form' %}" class="message_input_footer" method="post">
 		{% csrf_token %}
 		<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
