@@ -14,14 +14,19 @@
 
 	<body class="body">
 
-		<div class="conversation">
+		<div class="all_conversation">
+			<div class="log_list">
+				<button type="button" id="add_log_button">New chat</button>
+			</div>
+			<div class="conversation">
+			</div>
 		</div>
 
 		<footer id="footer">
 			<form action="" class="message_input_footer" method="post">
 				{% csrf_token %}
 				<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
-				<input type="submit" id="send_button" value="▶">
+				<button type="submit" id="send_button">▶</button>
 			</form>
 		</footer>
 	</body>

@@ -2,9 +2,36 @@
 	overflow: scroll;
 }
 
-.conversation{
-	margin: 0 auto;
+.all_conversation{
+	display: flex;
+	height: 100%;
+	width: 100%;
+	letter-spacing: -.4em;
+}
+
+.log_list{
+	height: 100vw;
+	width: 15%;
+	background-color: #202123;
+	/* background-color: green; */
+	text-align: center;
+}
+
+#add_log_button{
 	width: 70%;
+	height: 5%;
+	max-height: 70px;
+	margin: auto;
+	border-radius: 8px;	/*角の丸み*/
+	font-size: large;
+	background-color: #202123;
+	border-color: white;
+}
+
+.conversation{
+	width: 70%;
+	text-align: center;
+	/* background-color: aqua; */
 }
 
 .user{
@@ -33,6 +60,7 @@
 	width: 70%;
 	height: 150px;
 	margin: auto;	/*中央揃え*/
+	padding-left: 10%;
 }
 
 #message_input{

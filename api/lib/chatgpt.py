@@ -9,7 +9,7 @@ from . import util
 from api.res import prompts, settings
 
 class ChatGPT:
-    def __init__(self, inifile:configparser.ConfigParser) -> None:
+    def __init__(self, inifile:configparser.ConfigParser, title:str) -> None:
         # ChatGPT settings
         self.model = openai.ChatCompletion
         self.inifile = inifile
@@ -37,7 +37,7 @@ class ChatGPT:
 
         # log settings
         util.prepare_logs(log_path=self.inifile.get("log","path"), model_name=self.inifile.get("ChatGPT","model_name"))
-        self.log_name = util.get_date_time()
+        self.log_name = title # util.get_date_time()
         self.log_path = self.inifile.get("log","path") + self.inifile.get("ChatGPT","model_name") + "/" + self.log_name + ".log"
         self.logger = logging.getLogger(self.log_name)
         self.logger.setLevel(logging.DEBUG)
