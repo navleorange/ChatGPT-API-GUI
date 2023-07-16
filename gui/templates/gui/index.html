@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja" style="color-scheme: dark;">
-<head>
-	<!--フロントエンド有識者助けて(/_;)-->
-	<link rel="stylesheet" type="text/css" href="/static/gui/log.css">
-	<script src="/static/gui/message_form.js"></script>
-	<title>ChatGPT API</title>
-	<meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="Cache-Control" content="no-cache">
-	<meta charset="UTF-8">
-</head>
+	<head>
+		<!--フロントエンド有識者助けて(/_;)-->
+		<link rel="stylesheet" type="text/css" href="/static/gui/log.css">
+		<title>ChatGPT API</title>
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta charset="UTF-8">
+		<script src="/static/gui/message_form.js"></script>
+		<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+		<script src="/static/gui/update.js"></script>
+	</head>
 
-<body class="boddy">
-	{% for message in message_list %}
-		{% if message.role == "user" %}
-			<div class="test">
-				<div class="content">
-					{{message.content}}
-				</div>
-			</div>
-		{% elif message.role == "assistant" %}
-			<div class="assistant">
-				<div class="content">{{message.content}}</div>
-			</div>
-		{% endif %}
-	{% endfor %}
-</body>
+	<body class="body">
 
-<footer id="footer">
-	<form action="{% url 'form' %}" class="message_input_footer" method="post">
-		{% csrf_token %}
-		<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
-		<input type="submit" id="submit_button" value="▶">
-	</form>
-</footer>
+		<div class="conversation">
+		</div>
+
+		<footer id="footer">
+			<form action="" class="message_input_footer" method="post">
+				{% csrf_token %}
+				<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
+				<input type="submit" id="send_button" value="▶">
+			</form>
+		</footer>
+	</body>
 
 </html>

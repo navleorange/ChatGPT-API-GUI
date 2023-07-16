@@ -1,4 +1,5 @@
 import os
+import time
 import logging
 import configparser
 import openai
@@ -91,7 +92,7 @@ class ChatGPT:
         else:
             self.talk_history[pos]["content"] += content
         
-    def create_comment_stream(self, text:str):
+    def create_comment_stream(self, text:str) -> dict:
         # write log
         self.logger.info(text)
 
@@ -119,13 +120,15 @@ class ChatGPT:
                 if content:
                     response_content += content
                     self.add_stream_content(pos=add_pos, content=content)
-                    yield self.talk_history
+                    yield dict(index=len(self.talk_history) - 1, message=self.talk_history[-1])    # (talk_index, latest content)
 
         # write log
         self.logger.info(self.name + " response:" + response_content)
         self.logger.info(settings.separate_word)
 
-        return None
+        time.sleep(0.5)    # last resort
+
+        return dict(index=len(self.talk_history) - 1, message=response_content)    # (talk_index, latest content)
 
     def create_comment(self, text:str) -> str:
 

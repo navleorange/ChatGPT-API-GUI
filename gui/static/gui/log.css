@@ -2,7 +2,12 @@
 	overflow: scroll;
 }
 
-.test{
+.conversation{
+	margin: 0 auto;
+	width: 70%;
+}
+
+.user{
 	background-color: #343541;
 	font-size: x-large;
 	margin: 0;
@@ -14,14 +19,7 @@
 	margin: 0;
 }
 
-.content{
-	margin: 0 auto;
-	width: 30%;
-}
-
-
-
-/*footer*/
+/*-----footer-----*/
 
 #footer{
 	margin-top: 40%;
@@ -48,7 +46,7 @@
 	font-size: x-large;
 }
 
-#submit_button{
+#send_button{
 	width: 7%;
 	height: 30%;
 }
