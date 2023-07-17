@@ -5,7 +5,7 @@ import openai
 import tiktoken
 from dotenv import load_dotenv
 from . import util
-from api.res import prompts, settings
+from res import prompts, settings
 
 class ChatGPT:
     def __init__(self, inifile:configparser.ConfigParser) -> None:

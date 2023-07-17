@@ -3,7 +3,8 @@ from django.views.generic import TemplateView
 from api.lib import util
 from api.lib.chatgpt import ChatGPT
 
-config_path = "./api/res/config.ini"
+# 別の場所に移したいけどとりあえず...
+config_path = "./res/config.ini"
 inifile = util.load_config(config_path=config_path)
 inifile.read(config_path,"UTF-8")
 chatgpt = None

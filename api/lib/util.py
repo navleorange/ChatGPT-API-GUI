@@ -6,7 +6,7 @@ import datetime
 import configparser
 from typing import NoReturn
 import openai
-from api.res import settings
+from res import settings
 
 def read_log(log_path:str) -> list:
      with open(log_path,"r") as f:
