@@ -9,13 +9,32 @@
 }
 
 .log_list{
+	overflow: hidden;
+	position: sticky;
+	top: 0;
 	display: block;
-	height: 100vw;
+	height: 10%;
+	max-height: 800px;
 	width: 15%;
 	background-color: #202123;
-	/* background-color: green; */
 	text-align: center;
-	padding: auto;
+	padding: auto;;
+	border-radius: 20px;
+}
+
+.log_list:hover{
+	overflow: scroll;
+}
+
+.log_list::-webkit-scrollbar{
+	width: 8px;
+	height: 0;
+}
+
+.log_list::-webkit-scrollbar-thumb{
+	background-color: gray;
+	border-radius: 8px;	/*角の丸み*/
+
 }
 
 #add_log_button{
@@ -53,7 +72,7 @@
 .conversation{
 	width: 70%;
 	text-align: center;
-	/* background-color: aqua; */
+	padding-left: 5%;
 }
 
 .user{
@@ -74,7 +93,6 @@
 	margin-top: 40%;
 	position: sticky;
 	bottom: 0;
-	/* background-color: blue; */
 }
 
 .message_input_footer{

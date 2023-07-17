@@ -33,13 +33,25 @@ $(function(){
 		// add user message
 		var user_message_num = document.querySelectorAll(".user").length;
 		var user_message = $("#message_input").val();
+
+		// avoid null
+		if(!user_message || user_message.length == 0){
+			return
+		}
+
 		$(".conversation").append(makeMessageParagraph(user_role,user_message_num+1,user_message));
 
 		// send user message to server and receive chatgpt message
 		var form = $(this);
 		var ajax_chatgpt = new XMLHttpRequest();
 		ajax_chatgpt.onreadystatechange = function(){
+			if(ajax_chatgpt.readyState != 4){
+				// lock button
+				var button = document.getElementById("send_button")
+				button.setAttribute("disabled",true)
+			}
 			if(ajax_chatgpt.readyState == 3){
+				// append new text
 				var text_processing = ajax_chatgpt.responseText.split("}}") 			// separate messages
 				text_processing = text_processing.filter(element => !(element==""));	// remove space
 				var display_text = text_processing[text_processing.length - 1] + "}}";	// pick up latest message
@@ -55,6 +67,33 @@ $(function(){
 				}
 
 			}
+			else if(ajax_chatgpt.readyState == 4){
+				var text_processing = ajax_chatgpt.responseText.split("}}") 			// separate messages
+				text_processing = text_processing.filter(element => !(element==""));	// remove space
+				var display_text = text_processing[text_processing.length - 1] + "}}";	// pick up latest message
+				display_text = display_text.replace(/\'/g,"\"");						// replace ' -> "
+				display_text = JSON.parse(display_text);								// text to json
+
+				// if display is not complated append
+				if(document.getElementById(assistant_role + display_text.index) != null && document.getElementById(assistant_role + display_text.index).textContent.length < display_text.message.content.length){	// find_index and prev_text_length < current_text_length
+					document.getElementById(assistant_role + display_text.index).remove();
+					$(".conversation").append(makeMessageParagraph(assistant_role,display_text.index,display_text.message.content));
+				}
+
+				// release button
+				var button = document.getElementById("send_button")
+				button.removeAttribute("disabled")
+			}
+
+			// scroll
+			var chatgpt_messages = document.querySelectorAll(".assistant")
+			var elem = chatgpt_messages[chatgpt_messages.length - 1]
+			elem.scrollIntoView({
+				block: "center",
+				inline: "nearest",
+				behavior: "smooth",
+			})
+
 		};
 
 		console.log("---------------form------------------")

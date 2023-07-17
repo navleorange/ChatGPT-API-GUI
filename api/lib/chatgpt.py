@@ -1,5 +1,4 @@
 import os
-import time
 import logging
 import configparser
 import openai
@@ -9,7 +8,7 @@ from . import util
 from api.res import prompts, settings
 
 class ChatGPT:
-    def __init__(self, inifile:configparser.ConfigParser, title:str) -> None:
+    def __init__(self, inifile:configparser.ConfigParser) -> None:
         # ChatGPT settings
         self.model = openai.ChatCompletion
         self.inifile = inifile
@@ -34,21 +33,12 @@ class ChatGPT:
 
         # set billing address
         util.set_billing_address(model_name=self.name)
-
+        
         # log settings
-        util.prepare_logs(log_path=self.inifile.get("log","path"), model_name=self.inifile.get("ChatGPT","model_name"))
-        self.log_name =  util.get_date_time() + title 
-        self.log_path = self.inifile.get("log","path") + self.inifile.get("ChatGPT","model_name") + "/" + self.log_name + ".log"
-        self.logger = logging.getLogger(self.log_name)
-        self.logger.setLevel(logging.DEBUG)
-        self.log_handler = logging.FileHandler(self.log_path, mode="w", encoding="utf-8")
-        self.logger.addHandler(self.log_handler)
-        self.log_fmt = logging.Formatter("%(message)s")
-        self.log_handler.setFormatter(self.log_fmt)
-
-        # inform the model information
-        model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
-                          presence_penalry=self.presence_penalty, frequency_penalty=self.frequency_penalty)
+        self.logger = None
+        self.log_handler = None
+    
+    def check_model_info(self) -> None:
         print(settings.gpt_info_separate_word)
         print("model\t\t\t: " + self.name)
         print("temperature\t\t: " + str(self.temperature))
@@ -58,7 +48,6 @@ class ChatGPT:
         print("presence_penalty\t: " + str(self.presence_penalty))
         print("frequency_penalty\t: " + str(self.frequency_penalty))
         print(settings.separate_word)
-        self.logger.info(model_data)
     
     def get_tokens(self, text:str) -> None:
         tokens = self.token_model.encode(text)
@@ -88,6 +77,7 @@ class ChatGPT:
         
     def create_comment_stream(self, text:str) -> dict:
         # write log
+        if self.logger == None: self.set_logger(title=text)
         message_data = dict(role=prompts.user_role, content=text)
         self.logger.info(message_data)
 
@@ -119,8 +109,6 @@ class ChatGPT:
 
         # write log
         self.logger.info(self.talk_history[-1])
-
-        time.sleep(0.5)    # last resort
 
         return dict(index=len(self.talk_history) - 1, message=response_content)    # (talk_index, latest content)
 
@@ -158,3 +146,69 @@ class ChatGPT:
         self.update_history(role=prompts.chatgpt_role, text=response_content)
 
         return response_content
+    
+    def load_history(self, log_path:str, display_log_index:int) -> None:
+        # read log
+        log_list = util.get_log_list(log_path=log_path)
+        log_path = log_list[display_log_index]
+        log_lines = util.read_log(log_path=log_path)
+
+        # model settings
+        model_data = util.str_to_dict(text=log_lines.pop(0))
+        self.name = model_data["model"]
+        self.temperature = model_data["temperature"]
+        self.top_p = model_data["top_p"]
+        self.generate_num = model_data["generate_num"]
+        self.max_tokens = model_data["max_tokens"]
+        self.presence_penalty = model_data["presence_penalry"]
+        self.frequency_penalty = model_data["frequency_penalty"]
+
+        self.check_model_info()
+
+        # set history and logger
+        self.set_history(history_list=log_lines)
+        self.set_logger(log_name=util.remove_dir_pattern(log_name=log_path), log_path=log_path)
+    
+    def set_logger(self, log_name:str=None, log_path:str=None, title:str=None) -> None:
+        self.clear_logger()
+
+        if log_name == None:
+            util.prepare_logs(log_path=self.inifile.get("log","path"), model_name=self.inifile.get("ChatGPT","model_name"))
+            self.log_name =  util.get_date_time() + title 
+            self.log_path = self.inifile.get("log","path") + self.inifile.get("ChatGPT","model_name") + "/" + self.log_name + ".log"
+            self.log_handler = logging.FileHandler(self.log_path, mode="w", encoding="utf-8")
+        else:
+            print(log_path)
+            self.log_name = log_name
+            self.log_path = log_path
+            self.log_handler = logging.FileHandler(self.log_path, mode="a", encoding="utf-8")
+
+        self.logger = logging.getLogger(self.log_name)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(self.log_handler)
+        self.log_fmt = logging.Formatter("%(message)s")
+        self.log_handler.setFormatter(self.log_fmt)
+
+        # inform the model information
+        self.check_model_info()
+
+        if log_name == None:
+            # write model information to log
+            model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
+                            presence_penalry=self.presence_penalty, frequency_penalty=self.frequency_penalty)
+            self.logger.info(model_data)
+        
+    def clear_logger(self) -> None:
+        # close logger
+        if self.logger != None and self.log_handler != None:
+            self.logger.removeHandler(self.log_handler)
+            self.log_handler.close()
+        
+        self.logger = self.log_handler = None
+
+    def set_history(self, history_list:list) -> None:
+        self.talk_history.clear()
+        self.talk_history = [util.str_to_dict(text=history) for history in history_list]
+
+    def clear_history(self) -> None:
+        self.talk_history.clear()

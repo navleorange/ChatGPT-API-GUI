@@ -10,6 +10,7 @@
 		<script src="/static/gui/message_form.js"></script>
 		<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 		<script src="/static/gui/update_message.js"></script>
+		<script src="/static/gui/scroll.js"></script>
 	</head>
 
 	<body class="body">
@@ -24,6 +25,14 @@
 			</form>
 
 			<div class="conversation">
+				<!-- <p class="user" id="user1">こんにちは</p> -->
+				{% for past_message in past_messages %}
+					{% if past_message.role == "user" %}
+						<p class="user" id="user{{forloop.counter}}">{{past_message.content}}</p>
+					{% elif past_message.role == "assistant" %}
+						<p class="assistant" id="assistant{{forloop.counter}}">{{past_message.content}}</p>
+					{% endif %}
+				{% endfor %}
 			</div>
 
 		</div>
