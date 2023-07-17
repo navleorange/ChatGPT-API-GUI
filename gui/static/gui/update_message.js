@@ -49,6 +49,17 @@ $(function(){
 				// lock button
 				var button = document.getElementById("send_button")
 				button.setAttribute("disabled",true)
+
+				// lock new log
+				var new_log = document.getElementById("add_log_button")
+				new_log.setAttribute("disabled",true)
+
+				// lock log
+				var log_list = document.querySelectorAll(".log");
+				for(var i=0; i<log_list.length; i++){
+					log_list[i].setAttribute("disabled",true)
+				}
+
 			}
 			if(ajax_chatgpt.readyState == 3){
 				// append new text
@@ -83,6 +94,16 @@ $(function(){
 				// release button
 				var button = document.getElementById("send_button")
 				button.removeAttribute("disabled")
+
+				// release log
+				var new_log = document.getElementById("add_log_button")
+				new_log.removeAttribute("disabled")
+
+				// release log
+				var log_list = document.querySelectorAll(".log");
+				for(var i=0; i<log_list.length; i++){
+					log_list[i].removeAttribute("disabled")
+				}
 			}
 
 			// scroll

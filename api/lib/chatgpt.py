@@ -174,7 +174,9 @@ class ChatGPT:
 
         if log_name == None:
             util.prepare_logs(log_path=self.inifile.get("log","path"), model_name=self.inifile.get("ChatGPT","model_name"))
-            self.log_name =  util.get_date_time() + title 
+            title = title.replace("\n","").replace("\r","").replace("\t","")
+            if len(title) >= 20: title = title[:10]
+            self.log_name = util.get_date_time() +  title
             self.log_path = self.inifile.get("log","path") + self.inifile.get("ChatGPT","model_name") + "/" + self.log_name + ".log"
             self.log_handler = logging.FileHandler(self.log_path, mode="w", encoding="utf-8")
         else:
