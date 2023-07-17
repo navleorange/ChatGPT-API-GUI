@@ -48,3 +48,22 @@ def convert_prompts(messages:list) -> str:
         result += message["content"] + "\n"
 
     return result
+
+def get_log_list(log_path:str) -> list:
+    # search log file
+    if not is_directory_exist(directory_path=log_path): return None
+    model_dir = os.listdir(log_path)
+    if len(model_dir) == 0:  return None
+
+    result = []
+
+    for model_path in model_dir:
+        entity_path = log_path + model_path
+        log_list = os.listdir(entity_path)
+        
+        if len(log_list) == 0: return None
+
+        for log in log_list:
+            result.append(log.replace(".log",""))
+
+    return result

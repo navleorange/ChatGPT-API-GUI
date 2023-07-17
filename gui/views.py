@@ -12,7 +12,9 @@ class ApiView(TemplateView):
     template_name = "gui/index.html"
 
     def get(self, request, **kwargs):
-        params = {"message":"Hello!!!"}
+        params = {"message":"Hello!!!",
+                  "log_title_list":util.get_log_list(log_path=inifile.get("log","path"))}
+        print(params)
         return self.render_to_response(params)
 
     def ajax_response(self, message):
