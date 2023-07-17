@@ -23,7 +23,7 @@ function makeMessageParagraph(role, index, message){
 }
 
 $(function(){
-	$("form").submit(function(event){
+	$(".message_input_footer").submit(function(event){
 		event.preventDefault();
 
 		// chatgpt role setting
@@ -54,16 +54,21 @@ $(function(){
 					$(".conversation").append(makeMessageParagraph(assistant_role,display_text.index,display_text.message.content));
 				}
 
-
 			}
 		};
+
+		console.log("---------------form------------------")
+		console.log(form)
 
 		// url: form.prop('action') method: form.prop('method')
 		ajax_chatgpt.open(form.prop('method'), form.prop('action'));
 
-		//ヘッダにCSRFトークンをセットする。
+		// ヘッダにCSRFトークンをセットする。
 		const csrftoken = getCookie('csrftoken');
 		ajax_chatgpt.setRequestHeader("X-CSRFToken", csrftoken);
+
+		// set header
+		ajax_chatgpt.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 		// dataType: 'text'
 		ajax_chatgpt.responseType = "text";
@@ -72,5 +77,6 @@ $(function(){
 		form =  document.querySelector(".message_input_footer");
 		data = new FormData(form)
 		ajax_chatgpt.send(data);
+
 	});
 });

@@ -37,16 +37,18 @@ class ChatGPT:
 
         # log settings
         util.prepare_logs(log_path=self.inifile.get("log","path"), model_name=self.inifile.get("ChatGPT","model_name"))
-        self.log_name = title # util.get_date_time()
+        self.log_name =  util.get_date_time() + title 
         self.log_path = self.inifile.get("log","path") + self.inifile.get("ChatGPT","model_name") + "/" + self.log_name + ".log"
         self.logger = logging.getLogger(self.log_name)
         self.logger.setLevel(logging.DEBUG)
         self.log_handler = logging.FileHandler(self.log_path, mode="w", encoding="utf-8")
         self.logger.addHandler(self.log_handler)
-        self.log_fmt = logging.Formatter("%(funcName)s: %(message)s")
+        self.log_fmt = logging.Formatter("%(message)s")
         self.log_handler.setFormatter(self.log_fmt)
 
         # inform the model information
+        model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
+                          presence_penalry=self.presence_penalty, frequency_penalty=self.frequency_penalty)
         print(settings.gpt_info_separate_word)
         print("model\t\t\t: " + self.name)
         print("temperature\t\t: " + str(self.temperature))
@@ -56,15 +58,7 @@ class ChatGPT:
         print("presence_penalty\t: " + str(self.presence_penalty))
         print("frequency_penalty\t: " + str(self.frequency_penalty))
         print(settings.separate_word)
-        self.logger.info(settings.gpt_info_separate_word)
-        self.logger.info("model\t\t\t: " + self.name)
-        self.logger.info("temperature\t\t: " + str(self.temperature))
-        self.logger.info("top_p\t\t\t: " + str(self.top_p))
-        self.logger.info("generate_num\t\t: " + str(self.generate_num))
-        self.logger.info("max_tokens\t\t: " + str(self.max_tokens))
-        self.logger.info("presence_penalty\t: " + str(self.presence_penalty))
-        self.logger.info("frequency_penalty\t: " + str(self.frequency_penalty))
-        self.logger.info(settings.separate_word)
+        self.logger.info(model_data)
     
     def get_tokens(self, text:str) -> None:
         tokens = self.token_model.encode(text)
@@ -94,7 +88,8 @@ class ChatGPT:
         
     def create_comment_stream(self, text:str) -> dict:
         # write log
-        self.logger.info(text)
+        message_data = dict(role=prompts.user_role, content=text)
+        self.logger.info(message_data)
 
         self.update_history(role=prompts.user_role, text=text)
         messages = self.talk_history.copy()
@@ -123,8 +118,7 @@ class ChatGPT:
                     yield dict(index=len(self.talk_history) - 1, message=self.talk_history[-1])    # (talk_index, latest content)
 
         # write log
-        self.logger.info(self.name + " response:" + response_content)
-        self.logger.info(settings.separate_word)
+        self.logger.info(self.talk_history[-1])
 
         time.sleep(0.5)    # last resort
 
@@ -164,10 +158,3 @@ class ChatGPT:
         self.update_history(role=prompts.chatgpt_role, text=response_content)
 
         return response_content
-    
-    def test_create(self, text:str) -> str:
-        self.update_history(role=prompts.user_role, text=text)
-        response = text + "を受け取りました。"
-        self.update_history(role=prompts.chatgpt_role, text=response)
-
-        return self.talk_history

@@ -15,18 +15,21 @@
 	<body class="body">
 
 		<div class="all_conversation">
-			<div class="log_list">
-				<button type="button" id="add_log_button">New chat</button>
+			<form action="" class="log_list" method="post">
+				{% csrf_token %}
+				<button id="add_log_button" name="add_log_button">New chat</button>		<!-- type="button"を入れるとクリックが拾えない(;´Д｀) -->
 				{% for log_title in log_title_list %}
-					<p><button class="log" id="log{{forloop.counter0}}">{{log_title}}</button></p>
+					<p><button class="log" name="log{{forloop.counter0}}">{{log_title}}</button></p>
 				{% endfor %}
-			</div>
+			</form>
+
 			<div class="conversation">
 			</div>
+
 		</div>
 
 		<footer id="footer">
-			<form action="" class="message_input_footer" method="post">
+			<form action="" class="message_input_footer" method="post">					<!-- classだと大丈夫だけどidにするとsubmitが拾えない(;´Д｀)-->
 				{% csrf_token %}
 				<textarea id="message_input" name="message", placeholder="Send a message"></textarea>
 				<button type="submit" id="send_button">▶</button>

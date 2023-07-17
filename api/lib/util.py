@@ -1,5 +1,6 @@
 import os
 import errno
+import re
 import datetime
 import configparser
 from typing import NoReturn
@@ -55,6 +56,8 @@ def get_log_list(log_path:str) -> list:
     model_dir = os.listdir(log_path)
     if len(model_dir) == 0:  return None
 
+    # log example: 2023-07-17_20:40:20名前テスト
+    time_pattern = "\d{4}(-\d{2}){2}_(\d{2}:){2}\d{2}"
     result = []
 
     for model_path in model_dir:
@@ -64,6 +67,24 @@ def get_log_list(log_path:str) -> list:
         if len(log_list) == 0: return None
 
         for log in log_list:
-            result.append(log.replace(".log",""))
+            log_name = re.sub(time_pattern,"",log)
+            log_name = log_name.replace(".log","")
+            result.append(log_name)
 
     return result
+
+def is_log_button_event(request:str) -> bool:
+    log_pattern = "log\d+"
+    result_flag = False
+
+    for key in request.keys():
+        if re.fullmatch(log_pattern,key):
+            result_flag = True
+            break
+    
+    if result_flag:
+        print("ADD")
+    else:
+        print("OTHER")
+    
+    return result_flag

@@ -18,6 +18,21 @@
 	padding: auto;
 }
 
+#add_log_button{
+	width: 70%;
+	height: 5%;
+	max-height: 70px;
+	margin: auto;
+	border-radius: 8px;	/*角の丸み*/
+	font-size: large;
+	background-color: #202123;
+	border-color: white;
+}
+#add_log_button:hover{
+	opacity: 0.7;
+	cursor: pointer;
+}
+
 .log{
 	border: none;
 	background-color: transparent;
@@ -28,16 +43,11 @@
 	margin: auto;
 	font-size: large;
 }
-
-#add_log_button{
-	width: 70%;
-	height: 5%;
-	max-height: 70px;
-	margin: auto;
+.log:hover{
+	border: 1px solid white;
 	border-radius: 8px;	/*角の丸み*/
-	font-size: large;
-	background-color: #202123;
-	border-color: white;
+	opacity: 0.7;
+	cursor: pointer;
 }
 
 .conversation{

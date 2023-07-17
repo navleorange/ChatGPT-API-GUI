@@ -23,8 +23,19 @@ class ApiView(TemplateView):
     
     def post(self, request, **kwarg):
         global chatgpt
-        message = request.POST["message"]
 
-        if chatgpt == None: chatgpt= ChatGPT(inifile=inifile,title=message)
+        print(request.headers)
+        print(request.POST)
 
-        return self.ajax_response(message=message)
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            message = request.POST["message"]
+            if chatgpt == None: chatgpt= ChatGPT(inifile=inifile,title=message)
+            return self.ajax_response(message=message)
+        
+        # button event
+        util.is_log_button_event(request=request.POST)
+
+        params = {"message":"Hello!!!",
+                  "log_title_list":util.get_log_list(log_path=inifile.get("log","path"))}
+        
+        return self.render_to_response(params)
