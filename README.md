@@ -28,6 +28,9 @@ Djangoを使用して実装しています。
 python3 manage.py runserver
 ```
 
+建てた場所のURLに`/chatgpt-api`をつけるとできるはずです。
+
+
 ## 設定の変更
 以下のファイルでChatGPTの設定を変更できます。
 ```
