@@ -3,7 +3,7 @@
 
 ## 作成した理由
 2023-07-18現在、WebでChatGPTを使うと3時間ごとに最大25メッセージしか送れない制限があります。
-APIを使えばその制限はないですが、ちょっと試すだけならGUIの方が色々と楽なので作りました。
+APIを使えばその制限はないですが、ちょっと試すだけならGUIの方が色々と便利なので作りました。
 
 ## 実行前に1度設定する必要があるもの
 以下を参考に`.env`を作成してください
@@ -31,7 +31,7 @@ OPENAI_API_KEY = "APIキー"
 
 基本は[API Reference](https://platform.openai.com/docs/api-reference/completions/create)に準拠しています。
 `generate_num`は`API Reference`で言うところの`n`に該当します。(現在は1にのみ対応)
-`model_name`は使いたい物をコメントアウトするか、`API Reference`を参照してください。
+`model_name`は使いたい物のコメントアウトを外すか、`API Reference`を参照してください。
 ```
 [log]
 path = ./log/
