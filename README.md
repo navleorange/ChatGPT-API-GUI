@@ -21,16 +21,6 @@ OPENAI_API_KEY = "APIキー"
 
 </div></details>
 
-## 実行
-Djangoを使用して実装しています。
-以下のコマンドでできるはず
-```
-python3 manage.py runserver
-```
-
-建てた場所のURLに`/chatgpt-api`をつけるとできるはずです。
-
-
 ## 設定の変更
 以下のファイルでChatGPTの設定を変更できます。
 ```
@@ -62,5 +52,15 @@ model_name = gpt-3.5-turbo-16k-0613
 ```
 
 </div></details>
+
+## 実行
+Djangoを使用して実装しています。
+以下のコマンドでできるはず
+```
+python3 manage.py runserver
+```
+
+建てた場所のURLに`/chatgpt-api`をつけるとできるはずです。
+
 
 <!-- フロントエンド初心者なのでご容赦ください(>_<) -->
