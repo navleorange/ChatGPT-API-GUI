@@ -25,7 +25,6 @@
 			</form>
 
 			<div class="conversation">
-				<!-- <p class="user" id="user1">こんにちは</p> -->
 				{% for past_message in past_messages %}
 					{% if past_message.role == "user" %}
 						<p class="user" id="user{{forloop.counter}}">{{past_message.content}}</p>
