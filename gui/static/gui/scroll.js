@@ -8,10 +8,12 @@ $(function(){
 		elem = chatgpt_messages[chatgpt_messages.length - 1]
 	}
 
-	elem.scrollIntoView({
-		block: "center",
-		inline: "nearest",
-		behavior: "smooth",
-	})
+	if(elem != null){
+		elem.scrollIntoView({
+			block: "center",
+			inline: "nearest",
+			behavior: "smooth",
+		})
+	}
 
 });

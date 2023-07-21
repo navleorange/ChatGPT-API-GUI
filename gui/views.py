@@ -16,12 +16,13 @@ class ApiView(TemplateView):
     def get(self, request, **kwargs):
         global chatgpt, past_messages
 
-        chatgpt = None
+        chatgpt= ChatGPT(inifile=inifile)
         past_messages.clear()
 
         params = {"message":"Hello!!!",
-                  "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
-                  "past_messages":past_messages,
+                    "model_data":chatgpt.get_model_data(),
+                    "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
+                    "past_messages":past_messages,
                   }
         
         return self.render_to_response(params)
@@ -51,6 +52,7 @@ class ApiView(TemplateView):
             chatgpt.load_history(log_path=inifile.get("log","path"), display_log_index=display_log_index)
 
         params = {"message":"Hello!!!",
+                  "model_data":chatgpt.get_model_data(),
                   "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
                   "past_messages":past_messages}
         

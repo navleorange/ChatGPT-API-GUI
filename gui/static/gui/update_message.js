@@ -117,9 +117,6 @@ $(function(){
 
 		};
 
-		console.log("---------------form------------------")
-		console.log(form)
-
 		// url: form.prop('action') method: form.prop('method')
 		ajax_chatgpt.open(form.prop('method'), form.prop('action'));
 

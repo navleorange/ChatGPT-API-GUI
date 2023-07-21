@@ -168,7 +168,7 @@ class ChatGPT:
         # set history and logger
         self.set_history(history_list=log_lines)
         self.set_logger(log_name=util.remove_dir_pattern(log_name=log_path), log_path=log_path)
-    
+
     def set_logger(self, log_name:str=None, log_path:str=None, title:str=None) -> None:
         self.clear_logger()
 
@@ -196,8 +196,7 @@ class ChatGPT:
 
         if log_name == None:
             # write model information to log
-            model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
-                            presence_penalry=self.presence_penalty, frequency_penalty=self.frequency_penalty)
+            model_data = self.get_model_data()
             self.logger.info(model_data)
         
     def clear_logger(self) -> None:
@@ -214,3 +213,8 @@ class ChatGPT:
 
     def clear_history(self) -> None:
         self.talk_history.clear()
+    
+    def get_model_data(self) -> dict:
+        model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
+                            presence_penalty=self.presence_penalty, frequency_penalty=self.frequency_penalty)
+        return model_data

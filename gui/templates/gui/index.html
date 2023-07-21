@@ -7,15 +7,18 @@
 		<meta http-equiv="Pragma" content="no-cache">
 		<meta http-equiv="Cache-Control" content="no-cache">
 		<meta charset="UTF-8">
-		<script src="/static/gui/message_form.js"></script>
 		<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+		<script src="/static/gui/message_form.js"></script>
 		<script src="/static/gui/update_message.js"></script>
 		<script src="/static/gui/scroll.js"></script>
+		<script src="/static/gui/menu.js"></script>
 	</head>
 
 	<body class="body">
 
 		<div class="all_conversation">
+
+			<!-- left log list -->
 			<form action="" class="log_list" method="post">
 				{% csrf_token %}
 				<button id="add_log_button" name="add_log_button">New chat</button>		<!-- type="button"を入れるとクリックが拾えない(;´Д｀) -->
@@ -24,6 +27,7 @@
 				{% endfor %}
 			</form>
 
+			<!-- middle conversation -->
 			<div class="conversation">
 				{% for past_message in past_messages %}
 					{% if past_message.role == "user" %}
@@ -34,6 +38,27 @@
 				{% endfor %}
 			</div>
 
+		</div>
+
+		<!-- right model settings -->
+		<div id="model_settings">
+			<button id="model_menu_button"><<</button>
+			<ul id="settings_list">
+				<li class="setting_content">model_name</li>
+				{{model_data.model}}
+				<li class="setting_content">temperature</li>
+				{{model_data.temperature}}
+				<li class="setting_content">top_p</li>
+				{{model_data.top_p}}
+				<li class="setting_content">generate_num</li>
+				{{model_data.generate_num}}
+				<li class="setting_content">max_tokens</li>
+				{{model_data.max_tokens}}
+				<li class="setting_content">presence_penalty</li>
+				{{model_data.presence_penalty}}
+				<li class="setting_content">frequency_penalty</li>
+				{{model_data.frequency_penalty}}
+			</ul>
 		</div>
 
 		<footer id="footer">

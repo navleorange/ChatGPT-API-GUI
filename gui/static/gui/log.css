@@ -47,6 +47,7 @@
 	background-color: #202123;
 	border-color: white;
 }
+
 #add_log_button:hover{
 	opacity: 0.7;
 	cursor: pointer;
@@ -79,15 +80,51 @@
 	background-color: #343541;
 	font-size: x-large;
 	margin: 0;
+	padding: 1%;
 }
 
 .assistant{
 	background-color:#444654;
 	font-size: x-large;
 	margin: 0;
+	padding: 1%;
 }
 
-/*-----footer-----*/
+#model_settings{
+	position: fixed;
+	top: 20%;
+	display: flex;				/*子要素横並び*/
+	right: 0;
+	overflow-x: hidden;
+	opacity: 0.95;
+}
+
+#model_menu_button{
+	min-height: 100px;
+	cursor: pointer;
+	border-radius: 8px;	/*角の丸み*/
+	background-color: #333333;
+}
+
+#settings_list{
+	display: none;
+	padding-left: 10%;
+	padding-right: 1%;
+	border: 1px solid;
+	border-radius: 8px;
+	background-color: #333333;
+	font-size: medium;
+}
+
+.setting_content{
+	cursor: pointer;
+}
+
+.setting_content:hover{
+	text-decoration: underline;
+}
+
+/*-------------------------------------footer-------------------------------------*/
 
 #footer{
 	margin-top: 40%;
@@ -101,6 +138,11 @@
 	height: 150px;
 	margin: auto;	/*中央揃え*/
 	padding-left: 10%;
+	opacity: 0.7;
+}
+
+.message_input_footer:hover{
+	opacity: 1;
 }
 
 #message_input{
