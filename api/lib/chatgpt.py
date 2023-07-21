@@ -214,6 +214,16 @@ class ChatGPT:
     def clear_history(self) -> None:
         self.talk_history.clear()
     
+    def reset_model(self) -> None:
+        self.name = self.inifile.get("ChatGPT","model_name")
+        self.temperature = self.inifile.getfloat("ChatGPT","temperature")
+        self.top_p = self.inifile.getfloat("ChatGPT","to_p")
+        self.generate_num = self.inifile.getint("ChatGPT","generate_num")
+        self.stream_flag = self.inifile.getboolean("ChatGPT","stream")
+        self.max_tokens = self.inifile.getint("ChatGPT","max_tokens")
+        self.presence_penalty = self.inifile.getfloat("ChatGPT","presence_penalty")
+        self.frequency_penalty = self.inifile.getfloat("ChatGPT","frequency_penalty")
+    
     def get_model_data(self) -> dict:
         model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
                             presence_penalty=self.presence_penalty, frequency_penalty=self.frequency_penalty)

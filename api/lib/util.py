@@ -71,7 +71,6 @@ def get_log_list(log_path:str) -> list:
 
     for model_path in model_dir:
         log_list.extend([model_path + "/" + log_name for log_name in os.listdir(model_path)])
-        # log_list.extend(os.listdir(model_path))
 
     return log_list
 

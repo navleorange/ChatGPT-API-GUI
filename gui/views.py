@@ -46,6 +46,7 @@ class ApiView(TemplateView):
             past_messages.clear()
             chatgpt.clear_logger()
             chatgpt.clear_history()
+            chatgpt.reset_model()
         elif util.is_log_button_event(request=request.POST):
             display_log_index = util.get_display_log_index(request=request.POST)
             past_messages = util.get_past_messages(log_path=inifile.get("log","path"), display_log_index=display_log_index)

@@ -108,8 +108,8 @@
 
 #settings_list{
 	display: none;
-	padding-left: 10%;
-	padding-right: 1%;
+	padding-left: auto;
+	padding-right: 5px;
 	border: 1px solid;
 	border-radius: 8px;
 	background-color: #333333;
