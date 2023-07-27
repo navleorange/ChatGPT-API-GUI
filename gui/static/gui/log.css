@@ -63,6 +63,7 @@
 	margin: auto;
 	font-size: large;
 }
+
 .log:hover{
 	border: 1px solid white;
 	border-radius: 8px;	/*角の丸み*/
@@ -116,12 +117,33 @@
 	font-size: medium;
 }
 
-.setting_content{
+.setting_content_title{
 	cursor: pointer;
 }
 
-.setting_content:hover{
+.setting_content_title:hover{
 	text-decoration: underline;
+}
+
+.setting_content{
+	list-style: none;
+}
+
+.setting_detail{
+	display: none;
+}
+
+.detail_input{
+	display: none;
+}
+
+#back_content{
+	background-color: #333333;
+	border-radius: 8px;	/*角の丸み*/
+}
+
+#back_content:hover{
+	border: 1px solid white;
 }
 
 /*-------------------------------------footer-------------------------------------*/

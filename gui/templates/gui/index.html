@@ -44,23 +44,35 @@
 		<div id="model_settings">
 			<button id="model_menu_button"><<</button>
 			<ul id="settings_list">
-				<li class="setting_content">model_name</li>
-				{{model_data.model}}
-				<li class="setting_content">temperature</li>
-				{{model_data.temperature}}
-				<li class="setting_content">top_p</li>
-				{{model_data.top_p}}
-				<li class="setting_content">generate_num</li>
-				{{model_data.generate_num}}
-				<li class="setting_content">max_tokens</li>
-				{{model_data.max_tokens}}
-				<li class="setting_content">presence_penalty</li>
-				{{model_data.presence_penalty}}
-				<li class="setting_content">frequency_penalty</li>
-				{{model_data.frequency_penalty}}
+				<!-- setting list -->
+				{% for key, value in model_data.items %}
+				<li id="{{key}}" class="setting_content_title">{{key}}</li>
+				<li id="{{key}}_content" class="setting_content">{{value}}</li>
+				{% endfor %}
+
+				<!-- setting detail -->
+				<form action="" class="setting_detail" method="POST">
+					{% csrf_token %}
+					<!-- model -->
+					<div id="model_detail" class="detail_input">
+						{% for model in model_list %}
+							{% if model == model_data.model %}
+								<div><input type="radio" name="model_name" value="{{model}}" checked>{{model}}</div>
+							{% else %}
+								<div><input type="radio" name="model_name" value="{{model}}">{{model}}</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<!-- number setting detail -->
+					<div id="number_detail" class="detail_input">
+						<div><input type="number" name="float" value="0.00" step="0.01"></div>
+					</div>
+					<p><input id="back_content" type="button" value="<< 一覧に戻る"></p>
+				</form>
 			</ul>
 		</div>
 
+		<!-- footer -->
 		<footer id="footer">
 			<form action="" class="message_input_footer" method="post">					<!-- classだと大丈夫だけどidにするとsubmitが拾えない(;´Д｀)-->
 				{% csrf_token %}

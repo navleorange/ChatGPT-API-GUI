@@ -55,7 +55,7 @@ def convert_prompts(messages:list) -> str:
 
     return result
 
-def get_model_list(log_path:str) -> list:
+def get_model_dir(log_path:str) -> list:
     # search log file
     if not is_directory_exist(directory_path=log_path): return None
     model_dir = [log_path + model_name for model_name in os.listdir(log_path)]
@@ -64,7 +64,7 @@ def get_model_list(log_path:str) -> list:
     return model_dir
 
 def get_log_list(log_path:str) -> list:
-    model_dir = get_model_list(log_path=log_path)
+    model_dir = get_model_dir(log_path=log_path)
     if model_dir == None:  return None
 
     log_list = []
@@ -137,3 +137,7 @@ def get_past_messages(log_path:str, display_log_index:int) -> list:
     del log_lines[0]    # 0: model info
 
     return [str_to_dict(text=line) for line in log_lines]   # string to dict
+
+def get_model_list(inifile:configparser.ConfigParser) -> list:
+    model_list = inifile.get("settings_menu","model_list")
+    return json.loads(model_list)

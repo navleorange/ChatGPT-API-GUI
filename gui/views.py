@@ -1,4 +1,4 @@
-from django.http import StreamingHttpResponse
+from django.http import HttpResponse, StreamingHttpResponse, QueryDict
 from django.views.generic import TemplateView
 from api.lib import util
 from api.lib.chatgpt import ChatGPT
@@ -23,6 +23,7 @@ class ApiView(TemplateView):
                     "model_data":chatgpt.get_model_data(),
                     "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
                     "past_messages":past_messages,
+                    "model_list":util.get_model_list(inifile=inifile),
                   }
         
         return self.render_to_response(params)
@@ -37,7 +38,7 @@ class ApiView(TemplateView):
         if chatgpt == None: chatgpt= ChatGPT(inifile=inifile)
 
         # message event
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.headers.get('Chat-Update-Target') == "Message":
             message = request.POST["message"]
             return self.ajax_response(message=message)
         
@@ -55,6 +56,17 @@ class ApiView(TemplateView):
         params = {"message":"Hello!!!",
                   "model_data":chatgpt.get_model_data(),
                   "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
-                  "past_messages":past_messages}
+                  "past_messages":past_messages,
+                  "model_list":util.get_model_list(inifile=inifile),
+                }
         
         return self.render_to_response(params)
+    
+    def model_update(self, message):
+        chatgpt.change_model(model_name=message)
+        return HttpResponse(status=200)
+    
+    def put(self, request, **kwarg):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.headers.get('Chat-Update-Target') == "MODEL":
+            params = QueryDict(request.body)
+            return self.model_update(message=params["model"])

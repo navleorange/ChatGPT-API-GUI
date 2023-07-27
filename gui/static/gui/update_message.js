@@ -85,7 +85,7 @@ $(function(){
 				display_text = display_text.replace(/\'/g,"\"");						// replace ' -> "
 				display_text = JSON.parse(display_text);								// text to json
 
-				// if display is not complated append
+				// if display is not complated, append complated text
 				if(document.getElementById(assistant_role + display_text.index) != null && document.getElementById(assistant_role + display_text.index).textContent.length < display_text.message.content.length){	// find_index and prev_text_length < current_text_length
 					document.getElementById(assistant_role + display_text.index).remove();
 					$(".conversation").append(makeMessageParagraph(assistant_role,display_text.index,display_text.message.content));
@@ -123,6 +123,9 @@ $(function(){
 		// ヘッダにCSRFトークンをセットする。
 		const csrftoken = getCookie('csrftoken');
 		ajax_chatgpt.setRequestHeader("X-CSRFToken", csrftoken);
+
+		// Original Header
+		ajax_chatgpt.setRequestHeader("Chat-Update-Target", "Message");
 
 		// set header
 		ajax_chatgpt.setRequestHeader("X-Requested-With", "XMLHttpRequest");

@@ -228,3 +228,7 @@ class ChatGPT:
         model_data = dict(model=self.name, temperature=self.temperature, top_p=self.top_p, generate_num=self.generate_num, max_tokens=self.max_tokens, 
                             presence_penalty=self.presence_penalty, frequency_penalty=self.frequency_penalty)
         return model_data
+    
+    def change_model(self, model_name:str) -> None:
+        self.name = model_name
+        self.check_model_info()
