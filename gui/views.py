@@ -24,6 +24,7 @@ class ApiView(TemplateView):
                     "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
                     "past_messages":past_messages,
                     "model_list":util.get_model_list(inifile=inifile),
+                    "numerical_params":util.get_numerical_params(inifile=inifile),
                   }
         
         return self.render_to_response(params)
@@ -58,6 +59,7 @@ class ApiView(TemplateView):
                   "log_title_list":util.get_log_name(log_list=util.get_log_list(log_path=inifile.get("log","path"))),
                   "past_messages":past_messages,
                   "model_list":util.get_model_list(inifile=inifile),
+                  "numerical_params":util.get_numerical_params(inifile=inifile),
                 }
         
         return self.render_to_response(params)
@@ -66,7 +68,16 @@ class ApiView(TemplateView):
         chatgpt.change_model(model_name=message)
         return HttpResponse(status=200)
     
+    def numerical_update(self, params):
+        chatgpt.change_params(params=params)
+        chatgpt.check_model_info()
+        return HttpResponse(status=200)
+    
     def put(self, request, **kwarg):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.headers.get('Chat-Update-Target') == "MODEL":
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.headers.get('Chat-Update-Target') == "Model":
             params = QueryDict(request.body)
             return self.model_update(message=params["model"])
+        elif request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.headers.get('Chat-Update-Target') == "NumericalValue":
+            params = QueryDict(request.body)
+            print(params)
+            return self.numerical_update(params=params)

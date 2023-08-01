@@ -232,3 +232,12 @@ class ChatGPT:
     def change_model(self, model_name:str) -> None:
         self.name = model_name
         self.check_model_info()
+    
+    def change_params(self, params:dict) -> None:
+        for key in params:
+            if hasattr(self,key):
+                set_value = float(params[key])
+                              
+                if set_value.is_integer():  set_value = int(set_value)
+
+                setattr(self,key,set_value)

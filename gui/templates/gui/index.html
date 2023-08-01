@@ -51,7 +51,7 @@
 				{% endfor %}
 
 				<!-- setting detail -->
-				<form action="" class="setting_detail" method="POST">
+				<div class="setting_detail">
 					{% csrf_token %}
 					<!-- model -->
 					<div id="model_detail" class="detail_input">
@@ -63,12 +63,15 @@
 							{% endif %}
 						{% endfor %}
 					</div>
-					<!-- number setting detail -->
-					<div id="number_detail" class="detail_input">
-						<div><input type="number" name="float" value="0.00" step="0.01"></div>
+					<!-- numerical setting detail -->
+					<div id="numerical_detail" class="detail_input">
+						<script>var numerical_params = JSON.parse('{{numerical_params|safe}}');</script>	<!-- get numerical_params from context -->
+						<div><input id="numerical_detail_input" type="number" name="float"></div>
+						<p><button type="submit" id="change_numerical">変更</button></p>
 					</div>
-					<p><input id="back_content" type="button" value="<< 一覧に戻る"></p>
-				</form>
+					<p><button id="back_content" type="button"><< 一覧に戻る</button></p>
+				</div>
+
 			</ul>
 		</div>
 

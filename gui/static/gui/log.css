@@ -137,6 +137,19 @@
 	display: none;
 }
 
+#numerical_detail{
+	text-align: right;
+}
+
+#change_numerical{
+	background-color: #333333;
+	border-radius: 8px;	/*角の丸み*/
+}
+
+#change_numerical:hover{
+	border: 1px solid white;
+}
+
 #back_content{
 	background-color: #333333;
 	border-radius: 8px;	/*角の丸み*/

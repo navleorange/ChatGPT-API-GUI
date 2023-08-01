@@ -141,3 +141,7 @@ def get_past_messages(log_path:str, display_log_index:int) -> list:
 def get_model_list(inifile:configparser.ConfigParser) -> list:
     model_list = inifile.get("settings_menu","model_list")
     return json.loads(model_list)
+
+def get_numerical_params(inifile:configparser.ConfigParser) -> str:
+    numerical_params = inifile.get("settings_menu","numerical_params").replace("\n","").replace("\'","\"")
+    return numerical_params
