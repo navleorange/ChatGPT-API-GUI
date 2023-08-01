@@ -43,7 +43,7 @@ class ApiView(TemplateView):
             message = request.POST["message"]
             return self.ajax_response(message=message)
         
-        # button event
+        # log button event
         if util.is_new_log_button_event(request=request.POST):
             past_messages.clear()
             chatgpt.clear_logger()

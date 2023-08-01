@@ -21,6 +21,9 @@ def is_file_exist(file_path:str) -> bool:
 def alert_file(file_path:str) -> NoReturn:
     raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), file_path)
 
+def alert_model_info() -> NoReturn:
+    raise ValueError("model data not found")
+
 def make_directory(directory_path:str) -> None:
     if not is_directory_exist(directory_path=directory_path):
         os.mkdir(directory_path)
@@ -134,7 +137,6 @@ def get_past_messages(log_path:str, display_log_index:int) -> list:
     log_list = get_log_list(log_path=log_path)
 
     log_lines = read_log(log_path=log_list[display_log_index])
-    del log_lines[0]    # 0: model info
 
     return [str_to_dict(text=line) for line in log_lines]   # string to dict
 
@@ -145,3 +147,12 @@ def get_model_list(inifile:configparser.ConfigParser) -> list:
 def get_numerical_params(inifile:configparser.ConfigParser) -> str:
     numerical_params = inifile.get("settings_menu","numerical_params").replace("\n","").replace("\'","\"")
     return numerical_params
+
+def get_latest_gpt_answer(log_lines:list) -> dict:
+
+    for log in reversed(log_lines):
+
+        if log.get("model",None) != None:
+            return log
+    
+    alert_model_info()

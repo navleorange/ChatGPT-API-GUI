@@ -108,7 +108,9 @@ class ChatGPT:
                     yield dict(index=len(self.talk_history) - 1, message=self.talk_history[-1])    # (talk_index, latest content)
 
         # write log
-        self.logger.info(self.talk_history[-1])
+        model_data = self.get_model_data()
+        model_data.update(self.talk_history[-1])
+        self.logger.info(model_data)
 
         return dict(index=len(self.talk_history) - 1, message=response_content)    # (talk_index, latest content)
 
@@ -152,20 +154,23 @@ class ChatGPT:
         log_list = util.get_log_list(log_path=log_path)
         log_path = log_list[display_log_index]
         log_lines = util.read_log(log_path=log_path)
+        log_lines = [util.str_to_dict(text=log) for log in log_lines]
 
         # model settings
-        model_data = util.str_to_dict(text=log_lines.pop(0))
+        latest_gpt_answer = util.get_latest_gpt_answer(log_lines=log_lines)
+        model_data = latest_gpt_answer
         self.name = model_data["model"]
         self.temperature = model_data["temperature"]
         self.top_p = model_data["top_p"]
         self.generate_num = model_data["generate_num"]
         self.max_tokens = model_data["max_tokens"]
-        self.presence_penalty = model_data["presence_penalry"]
+        self.presence_penalty = model_data["presence_penalty"]
         self.frequency_penalty = model_data["frequency_penalty"]
 
         self.check_model_info()
 
         # set history and logger
+
         self.set_history(history_list=log_lines)
         self.set_logger(log_name=util.remove_dir_pattern(log_name=log_path), log_path=log_path)
 
@@ -193,11 +198,6 @@ class ChatGPT:
 
         # inform the model information
         self.check_model_info()
-
-        if log_name == None:
-            # write model information to log
-            model_data = self.get_model_data()
-            self.logger.info(model_data)
         
     def clear_logger(self) -> None:
         # close logger
@@ -209,7 +209,8 @@ class ChatGPT:
 
     def set_history(self, history_list:list) -> None:
         self.talk_history.clear()
-        self.talk_history = [util.str_to_dict(text=history) for history in history_list]
+        if len(history_list) > 0 and history_list[0].get("role",None) == None: del history_list[0]  # old log 
+        self.talk_history = [self.make_message(role=history["role"], content=history["content"]) for history in history_list]
 
     def clear_history(self) -> None:
         self.talk_history.clear()
